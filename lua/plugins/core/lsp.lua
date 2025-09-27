@@ -7,7 +7,7 @@ return {
     },
 	config = function()
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "ruff", "pyright", "clangd", "ltex" },
+			ensure_installed = { "lua_ls", "stylua", "ruff", "pyright", "clangd", "ltex", "ts_ls" },
 		})
 
 		vim.lsp.config("ruff", {
