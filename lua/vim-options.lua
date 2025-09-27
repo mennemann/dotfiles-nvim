@@ -4,16 +4,16 @@ vim.g.loaded_netrw = 1
 
 vim.opt.clipboard = "unnamedplus"
 
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=4")
-vim.cmd("set softtabstop=4")
-vim.cmd("set shiftwidth=4")
-vim.cmd("set number")
-vim.cmd("set nowrap")
-vim.cmd("set linebreak")
-vim.cmd("set cursorline")
-vim.cmd("set scrolloff=8")
-vim.cmd("set noshowmode")
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.number = true
+vim.opt.wrap = false
+vim.opt.linebreak = true
+vim.opt.cursorline = true
+vim.opt.scrolloff = 8
+vim.opt.showmode = false
 
 vim.wo.relativenumber = true
 vim.opt.signcolumn = "auto"
