@@ -15,5 +15,7 @@ return {
         vim.g.vimtex_compiler_latexmk = {
             out_dir = "out",
         }
+
+        vim.g.vimtex_syntax_enabled = 0
     end,
 }
