@@ -55,7 +55,7 @@ vim.keymap.set("n", "M", function()
 end, { desc = "Delete mark" })
 
 vim.keymap.set("n", "Q", function()
-	vim.diagnostic.open_float(0, {scope="line"})
+	vim.diagnostic.open_float(0, {scope="line", border="rounded"})
 end)
 
 if vim.fn.has('win32') == 1 then
@@ -73,4 +73,12 @@ vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   command = [[%s/\s\+$//e]],
+})
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "tex" },
+  callback = function()
+    vim.opt_local.wrap = true
+  end,
 })
