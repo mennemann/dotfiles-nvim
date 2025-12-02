@@ -14,6 +14,7 @@ vim.opt.linebreak = true
 vim.opt.cursorline = true
 vim.opt.scrolloff = 8
 vim.opt.showmode = false
+vim.opt.exrc = true
 
 vim.wo.relativenumber = true
 vim.opt.signcolumn = "auto"
