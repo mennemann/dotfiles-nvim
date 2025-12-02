@@ -13,6 +13,7 @@ return {
 		vim.lsp.config("ruff", {
 			init_options = {
 				settings = {
+					configurationPreference = "filesystemFirst",
 					lineLength = 320,
 					lint = {
 						select = { "ALL" },
