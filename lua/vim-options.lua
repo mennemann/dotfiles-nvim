@@ -15,6 +15,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 8
 vim.opt.showmode = false
 vim.opt.exrc = true
+vim.o.winborder = "rounded"
 
 vim.wo.relativenumber = true
 vim.opt.signcolumn = "auto"
@@ -56,7 +57,7 @@ vim.keymap.set("n", "M", function()
 end, { desc = "Delete mark" })
 
 vim.keymap.set("n", "Q", function()
-	vim.diagnostic.open_float(0, {scope="line", border="rounded"})
+	vim.diagnostic.open_float(0, {scope="line"})
 end)
 
 if vim.fn.has('win32') == 1 then

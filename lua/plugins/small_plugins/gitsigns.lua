@@ -5,7 +5,6 @@ return {
 
         gitsigns.setup({
             preview_config = {
-                border = "rounded",
                 style = 'minimal',
             }
         })
