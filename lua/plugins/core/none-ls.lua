@@ -12,7 +12,7 @@ return {
                     "$FILENAME",
                     "--v2",
                     "--blank-lines",
-                }
+                },
             }),
         })
 

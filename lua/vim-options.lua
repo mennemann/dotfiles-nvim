@@ -39,10 +39,8 @@ vim.keymap.set("v", "<Tab><Tab>", ">")
 vim.keymap.set("n", "<S-Tab><S-Tab>", "<<")
 vim.keymap.set("v", "<S-Tab><S-Tab>", "<")
 
-
 vim.keymap.set("n", "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
 
 vim.keymap.set("n", "´", "`")
 vim.keymap.set("x", "p", "P")
@@ -57,35 +55,33 @@ vim.keymap.set("n", "M", function()
 end, { desc = "Delete mark" })
 
 vim.keymap.set("n", "Q", function()
-	vim.diagnostic.open_float(0, {scope="line"})
+    vim.diagnostic.open_float(0, { scope = "line" })
 end)
 
-if vim.fn.has('win32') == 1 then
+if vim.fn.has("win32") == 1 then
     vim.cmd("language en_US")
     vim.keymap.set("n", "<leader>r", ":!explorer %:h<CR><CR>")
-elseif vim.fn.has('unix') == 1 then
+elseif vim.fn.has("unix") == 1 then
     vim.keymap.set("n", "<leader>r", ":silent !xdg-open %:h &<CR>")
 end
 
-
 vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
 })
 
 vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  command = [[%s/\s\+$//e]],
+    pattern = "*",
+    command = [[%s/\s\+$//e]],
 })
 
-
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "tex" },
-  callback = function()
-    vim.opt_local.wrap = true
-  end,
+    pattern = { "markdown", "tex" },
+    callback = function()
+        vim.opt_local.wrap = true
+    end,
 })

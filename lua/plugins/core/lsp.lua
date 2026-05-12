@@ -5,34 +5,57 @@ return {
         { "mason-org/mason.nvim", opts = {} },
         "neovim/nvim-lspconfig",
     },
-	config = function()
-		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "stylua", "ruff", "pyright", "clangd", "ltex", "ts_ls", "rust_analyzer" },
-		})
-
-		vim.lsp.config("ruff", {
-			init_options = {
-				settings = {
-					configurationPreference = "filesystemFirst",
-					lineLength = 320,
-					lint = {
-						select = { "ALL" },
-                        ignore = { "D", "CPY", "F401", "E501", "S101", "PLR2004", "ANN", "C901", "T20", "FA", "PLR0911", "PLR0912", "E303", "E225", "E226", "E227", "E228", "E231", "FBT", "ERA", "S311", "ARG" },
-					},
-					format = {
-						preview = true,
-					},
-				},
-			},
-		})
-
-        vim.lsp.config("stylua", {
-            cmd = { 'stylua', '--lsp', '--indent-type', 'Spaces' },
+    config = function()
+        require("mason-lspconfig").setup({
+            ensure_installed = { "lua_ls", "stylua", "ruff", "pyright", "clangd", "ltex", "ts_ls", "rust_analyzer" },
         })
 
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
-        vim.keymap.set({"n", "v"}, "<leader>qq", vim.lsp.buf.format, {})
-	end,
+        vim.lsp.config("ruff", {
+            init_options = {
+                settings = {
+                    configurationPreference = "filesystemFirst",
+                    lineLength = 320,
+                    lint = {
+                        select = { "ALL" },
+                        ignore = {
+                            "D",
+                            "CPY",
+                            "F401",
+                            "E501",
+                            "S101",
+                            "PLR2004",
+                            "ANN",
+                            "C901",
+                            "T20",
+                            "FA",
+                            "PLR0911",
+                            "PLR0912",
+                            "E303",
+                            "E225",
+                            "E226",
+                            "E227",
+                            "E228",
+                            "E231",
+                            "FBT",
+                            "ERA",
+                            "S311",
+                            "ARG",
+                        },
+                    },
+                    format = {
+                        preview = true,
+                    },
+                },
+            },
+        })
+
+        vim.lsp.config("stylua", {
+            cmd = { "stylua", "--lsp", "--indent-type", "Spaces" },
+        })
+
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+        vim.keymap.set({ "n", "v" }, "<leader>qq", vim.lsp.buf.format, {})
+    end,
 }
