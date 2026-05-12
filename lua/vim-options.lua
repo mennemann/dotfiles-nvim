@@ -74,10 +74,22 @@ vim.diagnostic.config({
 
 vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
 
+local trim_enabled = true
+
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
-    command = [[%s/\s\+$//e]],
+    callback = function()
+        if trim_enabled then
+            vim.cmd([[%s/\s\+$//e]])
+        end
+    end,
 })
+
+vim.api.nvim_create_user_command("W", function()
+    trim_enabled = false
+    vim.cmd("write")
+    trim_enabled = true
+end, {})
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "markdown", "tex" },
