@@ -68,7 +68,12 @@ elseif vim.fn.has('unix') == 1 then
 end
 
 
-vim.diagnostic.config({ virtual_text = true })
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+})
 
 vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
 

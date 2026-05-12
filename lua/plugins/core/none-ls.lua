@@ -21,6 +21,5 @@ return {
                 null_ls.builtins.formatting.prettier,
             },
         })
-        vim.keymap.set("n", "<leader>qq", vim.lsp.buf.format, {})
     end,
 }

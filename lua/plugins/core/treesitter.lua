@@ -1,21 +1,37 @@
 return {
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                sync_install = false,
-                auto_install = true,
-                highlight = { enable = true },
-                indent = { enable = true },
-            })
+	"nvim-treesitter/nvim-treesitter",
+	lazy = false,
+	build = ":TSUpdate",
+	config = function()
+		require("nvim-treesitter").install({
+			"lua",
+			"python",
+			"c",
+			"cpp",
+			"bash",
+			"fish",
+			"rust",
+			"hyprlang",
+			"javascript",
+			"java",
+            "latex",
+            "asm",
+            "bibtex",
+            "cmake",
+            "csv",
+            "css",
+            "gitcommit",
+            "html",
+            "json",
+            "toml",
+            "yaml",
+		})
 
-            vim.filetype.add({
-                pattern = {
-                    [".*/hypr/.*%.conf"] = "hyprlang",
-                    [".*%.frag"] = "glsl",
-                },
-            })
-        end,
-    },
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = { "*" },
+			callback = function()
+				pcall(vim.treesitter.start)
+			end,
+		})
+	end,
 }
