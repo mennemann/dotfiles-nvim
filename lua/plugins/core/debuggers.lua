@@ -6,61 +6,87 @@ return {
         "mfussenegger/nvim-dap-python",
     },
     config = function()
+        vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#E06C75" })
+        vim.api.nvim_set_hl(0, "DapBreakpointCondition", { fg = "#ff9e64" })
+        vim.api.nvim_set_hl(0, "DapLogPoint", { fg = "#61AFEF" })
+        vim.api.nvim_set_hl(0, "DapStopped", { fg = "#98C379", bold = true })
+
+        local breakpoint_icons = {
+            DapBreakpoint = {
+                text = "",
+                texthl = "DapBreakpoint",
+                linehl = "DapBreakpoint",
+                numhl = "DapBreakpoint",
+            },
+            DapBreakpointCondition = {
+                text = "",
+                texthl = "DapBreakpointCondition",
+                linehl = "DapBreakpointCondition",
+                numhl = "DapBreakpointCondition",
+            },
+            DapLogPoint = { text = "", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" },
+            DapStopped = { numhl = "DapStopped" },
+        }
+
+        for type, opts in pairs(breakpoint_icons) do
+            vim.fn.sign_define(type, opts)
+        end
+
         local dap = require("dap")
         local dapui = require("dapui")
 
-        vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#ff2f2f" })
-        vim.fn.sign_define(
-            "DapBreakpoint",
-            { text = "⬤", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
-        )
+        dapui.setup()
 
-        vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
-        vim.keymap.set("n", "<leader>d<CR>", dap.continue, {})
-        vim.keymap.set("n", "<leader>dr", function()
-            dapui.open({ reset = true })
+        vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, {})
+        vim.keymap.set("n", "<leader>dB", function()
+            require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
         end, {})
-        vim.keymap.set("n", "<leader>d<Esc>", function()
-            dap.close()
+        vim.keymap.set("n", "<leader>dl", function()
+            require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+        end, {})
+        vim.keymap.set("n", "<leader>d<CR>", dap.continue, {})
+        vim.keymap.set("n", "<leader>dt", function()
+            dapui.toggle({ reset = true })
+        end, {})
+        vim.keymap.set("n", "<leader>d<ESC>", function()
+            dap.terminate()
             dapui.close()
         end, {})
 
+        dap.listeners.before.attach.dapui_config = dapui.open
+        dap.listeners.before.launch.dapui_config = dapui.open
+
+        -- Debugger configs
+
         require("dap-python").setup("python3")
 
-        dap.adapters.gdb = {
+        dap.adapters.cppdbg = {
+            id = "cppdbg",
             type = "executable",
-            command = "gdb",
-            args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+            command = "OpenDebugAD7",
         }
 
-        local c_cpp_config = {
+        dap.configurations.cpp = {
             {
                 name = "Launch",
-                type = "gdb",
+                type = "cppdbg",
                 request = "launch",
                 program = function()
                     return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
                 end,
                 cwd = "${workspaceFolder}",
                 stopAtBeginningOfMainSubprogram = false,
+                setupCommands = {
+                    {
+                        text = "-enable-pretty-printing",
+                        description = "enable pretty printing",
+                        ignoreFailures = false,
+                    },
+                },
             },
         }
 
-        dap.configurations.c = c_cpp_config
-        dap.configurations.cpp = c_cpp_config
-
-        dapui.setup()
-        dap.listeners.before.attach.dapui_config = function()
-            dapui.open()
-        end
-        dap.listeners.before.launch.dapui_config = function()
-            dapui.open()
-        end
-        dap.listeners.before.event_terminated.dapui_config = function()
-            dapui.close()
-        end
-        dap.listeners.before.event_exited.dapui_config = function()
-            dapui.close()
-        end
+        dap.configurations.c = dap.configurations.cpp
+        dap.configurations.rust = dap.configurations.cpp
     end,
 }
