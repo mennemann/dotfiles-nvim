@@ -24,6 +24,6 @@ return {
                 --				ccc.input.xyz,
             },
         })
-        vim.keymap.set("n", "<leader>cc", ":CccPick<CR>", {})
+        vim.keymap.set("n", "<leader>cc", ":CccPick<CR>", { desc = "Color picker" })
     end,
 }

@@ -37,21 +37,21 @@ return {
 
         dapui.setup()
 
-        vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, {})
+        vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: toggle breakpoint" })
         vim.keymap.set("n", "<leader>dB", function()
             require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-        end, {})
+        end, { desc = "Debug: conditional breakpoint" })
         vim.keymap.set("n", "<leader>dl", function()
             require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-        end, {})
-        vim.keymap.set("n", "<leader>d<CR>", dap.continue, {})
+        end, { desc = "Debug: log point" })
+        vim.keymap.set("n", "<leader>d<CR>", dap.continue, { desc = "Debug: continue" })
         vim.keymap.set("n", "<leader>dt", function()
             dapui.toggle({ reset = true })
-        end, {})
+        end, { desc = "Debug: toggle UI" })
         vim.keymap.set("n", "<leader>d<ESC>", function()
             dap.terminate()
             dapui.close()
-        end, {})
+        end, { desc = "Debug: terminate" })
 
         dap.listeners.before.attach.dapui_config = dapui.open
         dap.listeners.before.launch.dapui_config = dapui.open

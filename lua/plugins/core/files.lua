@@ -28,6 +28,6 @@ return {
                 },
             },
         })
-        vim.keymap.set("n", "<leader>e", ":Neotree reveal last<CR>")
+        vim.keymap.set("n", "<leader>e", ":Neotree reveal last<CR>", { desc = "Toggle file explorer" })
     end,
 }

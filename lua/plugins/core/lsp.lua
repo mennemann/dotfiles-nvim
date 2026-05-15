@@ -53,12 +53,12 @@ return {
             cmd = { "stylua", "--lsp", "--indent-type", "Spaces" },
         })
 
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, {})
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
-        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
-        vim.keymap.set({ "n", "v" }, "<leader>qq", vim.lsp.buf.format, {})
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP hover" })
+        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "LSP signature help" })
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP rename" })
+        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
+        vim.keymap.set({ "n", "v" }, "<leader>qq", vim.lsp.buf.format, { desc = "Format buffer" })
     end,
 }

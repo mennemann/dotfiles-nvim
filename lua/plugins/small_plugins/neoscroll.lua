@@ -6,9 +6,9 @@ return {
 
         vim.keymap.set({ "n", "v", "x" }, "<S-Up>", function()
             neoscroll.ctrl_u({ duration = 250 })
-        end, {})
+        end, { desc = "Smooth scroll up" })
         vim.keymap.set({ "n", "v", "x" }, "<S-Down>", function()
             neoscroll.ctrl_d({ duration = 250 })
-        end, {})
+        end, { desc = "Smooth scroll down" })
     end,
 }

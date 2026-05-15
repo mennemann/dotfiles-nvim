@@ -4,6 +4,6 @@ return {
         "tpope/vim-repeat",
     },
     config = function()
-        vim.keymap.set("n", "<leader>s", "<Plug>(leap)")
+        vim.keymap.set("n", "<leader>s", "<Plug>(leap)", { desc = "Leap motion" })
     end,
 }
