@@ -74,21 +74,22 @@ vim.diagnostic.config({
 
 vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
 
-local trim_enabled = true
+local do_auto_format = true
 
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     callback = function()
-        if trim_enabled then
+        if do_auto_format then
+            pcall(vim.lsp.buf.format)
             vim.cmd([[%s/\s\+$//e]])
         end
     end,
 })
 
 vim.api.nvim_create_user_command("W", function()
-    trim_enabled = false
+    do_auto_format = false
     vim.cmd("write")
-    trim_enabled = true
+    do_auto_format = true
 end, {})
 
 vim.api.nvim_create_autocmd("FileType", {
