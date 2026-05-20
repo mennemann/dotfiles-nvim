@@ -3,34 +3,19 @@ return {
     lazy = false,
     build = ":TSUpdate",
     config = function()
-        require("nvim-treesitter").install({
-            "lua",
-            "python",
-            "c",
-            "cpp",
-            "bash",
-            "fish",
-            "rust",
-            "hyprlang",
-            "javascript",
-            "java",
-            "latex",
-            "asm",
-            "bibtex",
-            "cmake",
-            "csv",
-            "css",
-            "gitcommit",
-            "html",
-            "json",
-            "toml",
-            "yaml",
-        })
+        local ts = require("nvim-treesitter")
 
         vim.api.nvim_create_autocmd("FileType", {
-            pattern = { "*" },
-            callback = function()
-                pcall(vim.treesitter.start)
+            callback = function(ev)
+                local lang = vim.treesitter.language.get_lang(ev.match)
+                local available_langs = ts.get_available()
+                if vim.tbl_contains(available_langs, lang) then
+                    ts.install(lang):await(function()
+                        vim.schedule(function()
+                            pcall(vim.treesitter.start, ev.buf, lang)
+                        end)
+                    end)
+                end
             end,
         })
     end,
