@@ -54,10 +54,6 @@ vim.keymap.set("n", "M", function()
     end
 end, { desc = "Delete mark" })
 
-vim.keymap.set("n", "Q", function()
-    vim.diagnostic.open_float(0, { scope = "line" })
-end, { desc = "Show diagnostic for current line" })
-
 if vim.fn.has("win32") == 1 then
     vim.cmd("language en_US")
     vim.keymap.set("n", "<leader>r", ":!explorer %:h<CR><CR>", { desc = "Open file manager" })
@@ -65,32 +61,7 @@ elseif vim.fn.has("unix") == 1 then
     vim.keymap.set("n", "<leader>r", ":silent !xdg-open %:h &<CR>", { desc = "Open file manager" })
 end
 
-vim.diagnostic.config({
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-})
-
 vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
-
-local do_auto_format = true
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    callback = function()
-        if do_auto_format then
-            pcall(vim.lsp.buf.format)
-            vim.cmd([[%s/\s\+$//e]])
-        end
-    end,
-})
-
-vim.api.nvim_create_user_command("W", function()
-    do_auto_format = false
-    vim.cmd("write")
-    do_auto_format = true
-end, {})
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "markdown", "tex" },

@@ -58,6 +58,49 @@ return {
             cmd = { "stylua", "--lsp", "--indent-type", "Spaces" },
         })
 
+        vim.diagnostic.config({
+            virtual_text = true,
+            signs = true,
+            underline = true,
+            update_in_insert = false,
+        })
+
+        local do_auto_format = true
+        local lsp_augroup = vim.api.nvim_create_augroup("user_lsp", { clear = true })
+
+        local function can_format_buffer(bufnr)
+            return vim.bo[bufnr].buftype == "" and vim.bo[bufnr].modifiable
+        end
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = lsp_augroup,
+            pattern = "*",
+            callback = function(event)
+                if do_auto_format and can_format_buffer(event.buf) then
+                    local ok, err = pcall(vim.lsp.buf.format, { bufnr = event.buf, timeout_ms = 3000 })
+                    if not ok then
+                        vim.notify("Autoformat failed: " .. err, vim.log.levels.WARN)
+                    end
+
+                    if not vim.tbl_contains({ "markdown", "tex" }, vim.bo[event.buf].filetype) then
+                        local view = vim.fn.winsaveview()
+                        vim.cmd([[keeppatterns %s/\s\+$//e]])
+                        vim.fn.winrestview(view)
+                    end
+                end
+            end,
+        })
+
+        vim.api.nvim_create_user_command("W", function()
+            do_auto_format = false
+            local ok, err = pcall(vim.cmd, "write")
+            do_auto_format = true
+
+            if not ok then
+                error(err)
+            end
+        end, {})
+
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP hover" })
         vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "LSP signature help" })
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -65,5 +108,8 @@ return {
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP rename" })
         vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
         vim.keymap.set({ "n", "v" }, "<leader>qq", vim.lsp.buf.format, { desc = "Format buffer" })
+        vim.keymap.set("n", "Q", function()
+            vim.diagnostic.open_float(0, { scope = "line" })
+        end, { desc = "Show diagnostic for current line" })
     end,
 }
