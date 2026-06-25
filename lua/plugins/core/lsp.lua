@@ -11,10 +11,6 @@ return {
             capabilities = require("cmp_nvim_lsp").default_capabilities(),
         })
 
-        require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "stylua", "ruff", "pyright", "clangd", "ltex", "ts_ls", "rust_analyzer" },
-        })
-
         vim.lsp.config("ruff", {
             init_options = {
                 settings = {
@@ -56,6 +52,21 @@ return {
 
         vim.lsp.config("stylua", {
             cmd = { "stylua", "--lsp", "--indent-type", "Spaces" },
+        })
+
+        vim.lsp.config("rust_analyzer", {
+            settings = {
+                ["rust-analyzer"] = {
+                    diagnostics = {
+                        -- Prevents RA from dimming conditional code blocks
+                        disabled = { "inactive-code" },
+                    },
+                },
+            },
+        })
+
+        require("mason-lspconfig").setup({
+            ensure_installed = { "lua_ls", "stylua", "ruff", "ty", "clangd", "ltex", "ts_ls", "rust_analyzer" },
         })
 
         vim.diagnostic.config({
