@@ -39,8 +39,18 @@ vim.keymap.set("v", "<Tab><Tab>", ">", { desc = "Indent selection" })
 vim.keymap.set("n", "<S-Tab><S-Tab>", "<<", { desc = "Outdent line" })
 vim.keymap.set("v", "<S-Tab><S-Tab>", "<", { desc = "Outdent selection" })
 
-vim.keymap.set("n", "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Move up (linewise with count)" })
-vim.keymap.set("n", "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Move down (linewise with count)" })
+vim.keymap.set(
+    "n",
+    "<Up>",
+    "v:count == 0 ? 'gk' : 'k'",
+    { expr = true, silent = true, desc = "Move up (linewise with count)" }
+)
+vim.keymap.set(
+    "n",
+    "<Down>",
+    "v:count == 0 ? 'gj' : 'j'",
+    { expr = true, silent = true, desc = "Move down (linewise with count)" }
+)
 
 vim.keymap.set("n", "´", "`", { desc = "Go to mark" })
 vim.keymap.set("x", "p", "P", { desc = "Paste without overwriting register" })
