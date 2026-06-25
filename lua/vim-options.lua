@@ -17,7 +17,7 @@ vim.opt.showmode = false
 vim.opt.exrc = true
 vim.o.winborder = "rounded"
 
-vim.wo.relativenumber = true
+vim.opt.relativenumber = true
 vim.opt.signcolumn = "auto"
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll half page down and center" })
@@ -56,14 +56,29 @@ end, { desc = "Delete mark" })
 
 if vim.fn.has("win32") == 1 then
     vim.cmd("language en_US")
-    vim.keymap.set("n", "<leader>r", ":!explorer %:h<CR><CR>", { desc = "Open file manager" })
-elseif vim.fn.has("unix") == 1 then
-    vim.keymap.set("n", "<leader>r", ":silent !xdg-open %:h &<CR>", { desc = "Open file manager" })
 end
 
-vim.cmd("autocmd FileType hyprlang setlocal commentstring=#\\ %s")
+vim.keymap.set("n", "<leader>r", function()
+    local path = vim.fn.expand("%:p:h")
+    if path == "" then
+        path = vim.fn.getcwd()
+    end
+
+    vim.ui.open(path)
+end, { desc = "Open file manager" })
+
+local general_augroup = vim.api.nvim_create_augroup("user_general", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
+    group = general_augroup,
+    pattern = "hyprlang",
+    callback = function(event)
+        vim.bo[event.buf].commentstring = "# %s"
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = general_augroup,
     pattern = { "markdown", "tex" },
     callback = function()
         vim.opt_local.wrap = true
