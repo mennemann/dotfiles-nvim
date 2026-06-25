@@ -15,12 +15,10 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
         },
-        config = function()
+        opts = function()
             local cmp = require("cmp")
 
-            require("luasnip.loaders.from_vscode").lazy_load()
-
-            cmp.setup({
+            return {
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
@@ -37,6 +35,18 @@ return {
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({ select = true }),
                 }),
+                formatting = {
+                    format = function(entry, item)
+                        item.menu = ({
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[Snippet]",
+                            path = "[Path]",
+                            omni = "[Omni]",
+                            buffer = "[Buffer]",
+                        })[entry.source.name]
+                        return item
+                    end,
+                },
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
@@ -53,7 +63,11 @@ return {
                 experimental = {
                     ghost_text = true,
                 },
-            })
+            }
+        end,
+        config = function(_, opts)
+            require("luasnip.loaders.from_vscode").lazy_load()
+            require("cmp").setup(opts)
         end,
     },
 }
