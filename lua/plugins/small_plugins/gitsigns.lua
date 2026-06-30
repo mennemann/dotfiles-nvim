@@ -23,5 +23,9 @@ return {
         vim.keymap.set("v", "<leader>hr", function()
             gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
         end, { desc = "Reset selected hunk" })
+
+        vim.keymap.set("n", "<leader>hb", function()
+            gitsigns.blame_line({ full = true })
+        end, { desc = "Show git blame" })
     end,
 }
