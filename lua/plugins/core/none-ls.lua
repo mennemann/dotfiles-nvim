@@ -9,8 +9,8 @@ return {
             filetypes = { "bib" },
             generator = null_ls.formatter({
                 command = "bibtex-tidy",
+                to_stdin = true,
                 args = {
-                    "$FILENAME",
                     "--v2",
                     "--blank-lines",
                 },
