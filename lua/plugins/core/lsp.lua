@@ -79,6 +79,16 @@ return {
         local do_auto_format = true
         local lsp_augroup = vim.api.nvim_create_augroup("user_lsp", { clear = true })
 
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = lsp_augroup,
+            callback = function(event)
+                local client = vim.lsp.get_client_by_id(event.data.client_id)
+                if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+                    vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+                end
+            end,
+        })
+
         local function can_format_buffer(bufnr)
             return vim.bo[bufnr].buftype == "" and vim.bo[bufnr].modifiable
         end
