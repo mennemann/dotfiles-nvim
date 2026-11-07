@@ -114,7 +114,7 @@ return {
             group = lsp_augroup,
             pattern = "*",
             callback = function(event)
-                if do_auto_format and can_format_buffer(event.buf) then
+                if do_auto_format and not vim.g.disable_autoformat and can_format_buffer(event.buf) then
                     local ok, err = pcall(vim.lsp.buf.format, { bufnr = event.buf, timeout_ms = 3000 })
                     if not ok then
                         vim.notify("Autoformat failed: " .. err, vim.log.levels.WARN)
