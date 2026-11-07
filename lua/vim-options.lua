@@ -29,7 +29,7 @@ vim.opt.exrc = true
 vim.o.winborder = "rounded"
 
 vim.opt.relativenumber = true
-vim.opt.signcolumn = "auto"
+vim.opt.signcolumn = "yes"
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll half page down and center" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll half page up and center" })
