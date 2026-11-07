@@ -73,7 +73,17 @@ return {
         })
 
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "stylua", "ruff", "ty", "clangd", "ltex_plus", "ts_ls", "rust_analyzer" },
+            ensure_installed = {
+                "lua_ls",
+                "stylua",
+                "ruff",
+                "ty",
+                "clangd",
+                "ltex_plus",
+                "texlab",
+                "ts_ls",
+                "rust_analyzer",
+            },
         })
 
         vim.diagnostic.config({
