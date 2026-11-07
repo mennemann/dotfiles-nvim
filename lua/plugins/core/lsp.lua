@@ -5,6 +5,13 @@ return {
         { "mason-org/mason.nvim", opts = {} },
         "neovim/nvim-lspconfig",
         "hrsh7th/cmp-nvim-lsp",
+        {
+            "barreiroleo/ltex_extra.nvim",
+            branch = "dev",
+            opts = {
+                path = vim.fn.stdpath("data") .. "/ltex",
+            },
+        },
     },
     config = function()
         vim.lsp.config("*", {
@@ -66,7 +73,7 @@ return {
         })
 
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "stylua", "ruff", "ty", "clangd", "ltex", "ts_ls", "rust_analyzer" },
+            ensure_installed = { "lua_ls", "stylua", "ruff", "ty", "clangd", "ltex_plus", "ts_ls", "rust_analyzer" },
         })
 
         vim.diagnostic.config({
