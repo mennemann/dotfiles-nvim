@@ -24,7 +24,7 @@ return {
             vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find help" })
             vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find marks" })
             vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Find diagnostics" })
-            vim.keymap.set("n", "gu", builtin.lsp_references, { desc = "Find references" })
+            vim.keymap.set("n", "grr", builtin.lsp_references, { desc = "Find references" })
         end,
     },
 }
