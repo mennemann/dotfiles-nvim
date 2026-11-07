@@ -1,6 +1,7 @@
 return {
     {
         "L3MON4D3/LuaSnip",
+        lazy = true,
         build = "make install_jsregexp",
         dependencies = {
             "saadparwaiz1/cmp_luasnip",
@@ -9,6 +10,7 @@ return {
     },
     {
         "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
         dependencies = {
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-omni",

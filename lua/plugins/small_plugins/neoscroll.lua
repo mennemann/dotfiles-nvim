@@ -1,5 +1,6 @@
 return {
     "karb94/neoscroll.nvim",
+    keys = { "<S-Up>", "<S-Down>" },
     config = function()
         local neoscroll = require("neoscroll")
         neoscroll.setup({ mappings = {} })
